@@ -9,20 +9,27 @@ import UIKit
 
 class LoginViewController: UIViewController {
 
+    // MARK: - IB Outlets
     @IBOutlet var userNameTF: UITextField!
     @IBOutlet var userPasswordTF: UITextField!
-    
+
+    // MARK: - Private Properties
     private let userName = "mimi";
     private let password = "mumu";
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        userNameTF.layer.cornerRadius = 15;
-        userPasswordTF.layer.cornerRadius = 15;
-    
+    // MARK: - Override Methods
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let welcomeViewCtl = segue.destination as? WelcomeViewController else {return}
+        guard let introductionUsername = userNameTF.text else { return }
+        welcomeViewCtl.username = introductionUsername
     }
-
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super .touchesBegan(touches, with: event)
+        view.endEditing(true)
+    }
+    
+    // MARK: - IB Actions
     @IBAction func loginButtonTapped() {
         if userNameTF.text != userName || userPasswordTF.text != password {
                         
@@ -53,25 +60,13 @@ class LoginViewController: UIViewController {
         
     }
     
-}
-
-// MARK: - Navigation
-extension LoginViewController {
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let welcomeViewCtl = segue.destination as? WelcomeViewController else {return}
-        guard let introductionUsername = userNameTF.text else { return }
-        welcomeViewCtl.username = introductionUsername
-    }
-    
     @IBAction func unwind(for segue: UIStoryboardSegue) {
         userNameTF.text = ""
         userPasswordTF.text = ""
     }
-}
     
-// MARK: - Common func
-extension LoginViewController {
+
+    // MARK: - Private Methods
     private func presentAlert(title: String, message: String, alertaction: UIAlertAction) {
         
         let alertCtl = UIAlertController(title: title,
@@ -84,18 +79,8 @@ extension LoginViewController {
         
     }
 }
-
-// MARK: - Hide Keyboard
-extension LoginViewController {
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super .touchesBegan(touches, with: event)
-        view.endEditing(true)
-    }
     
-
-    
-}
-
+// MARK: - extension the logic of the "return" button
 extension LoginViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == userNameTF {
