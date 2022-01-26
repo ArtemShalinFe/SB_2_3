@@ -15,9 +15,6 @@ class LoginViewController: UIViewController {
     
     // MARK: - Override Methods
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        guard let welcomeViewCtl = segue.destination as? WelcomeViewController else {return}
-//        guard let introductionUsername = userNameTF.text else { return }
-//        welcomeViewCtl.username = introductionUsername
         
         let person = getPersonData()
         
